@@ -15,7 +15,6 @@ RUN apk add --no-cache --virtual=build-dependencies \
 COPY services.d /etc/services.d
 RUN chmod a+x /etc/services.d/reflection/run
 WORKDIR /tmp
-#RUN git clone https://github.com/h31/Reflection.git; \
 
 COPY Reflection /tmp/Reflection
 RUN cd Reflection/; \
