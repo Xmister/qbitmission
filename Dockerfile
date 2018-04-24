@@ -1,6 +1,5 @@
 FROM lsiobase/alpine:3.7 as builder
 
-COPY Reflection /tmp/Reflection
 RUN apk add --no-cache --virtual=build-dependencies \
 	autoconf \
 	automake \
@@ -13,9 +12,11 @@ RUN apk add --no-cache --virtual=build-dependencies \
 	go \
 	git \
 	libtool \
-	make; \
-	\
-	cd /tmp/Reflection/; \
+	make
+
+COPY Reflection /tmp/Reflection
+
+RUN	cd /tmp/Reflection/; \
 	export GOPATH=$(pwd); \
 	go get main; \
 	go build main; \
