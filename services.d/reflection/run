@@ -2,4 +2,4 @@
 WEBUI_PORT=${WEBUI_PORT:-8080}
 
 exec \
-s6-setuidgid abc /tmp/Reflection/main --api-addr="http://localhost:${WEBUI_PORT}/"
+s6-setuidgid abc /tmp/main --api-addr="http://localhost:${WEBUI_PORT}/"

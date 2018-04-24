@@ -17,10 +17,13 @@ RUN chmod a+x /etc/services.d/reflection/run
 WORKDIR /tmp
 
 COPY Reflection /tmp/Reflection
-RUN cd Reflection/; \
+RUN cd /tmp/Reflection/; \
 	export GOPATH=$(pwd); \
 	go get main; \
-	go build main;
+	go build main; \
+	mv main ..; \
+	cd /tmp; \
+	rm -rf /tmp/Reflection;
 
 RUN apk del --purge \
 	build-dependencies
