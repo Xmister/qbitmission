@@ -1,5 +1,6 @@
-FROM linuxserver/qbittorrent
-RUN apk update && apk add --no-cache go git
+FROM lsiobase/alpine:3.7 as builder
+
+COPY Reflection /tmp/Reflection
 RUN apk add --no-cache --virtual=build-dependencies \
 	autoconf \
 	automake \
@@ -9,21 +10,21 @@ RUN apk add --no-cache --virtual=build-dependencies \
 	file \
 	g++ \
 	geoip-dev \
+	go \
 	git \
 	libtool \
-	make
-COPY services.d /etc/services.d
-RUN chmod a+x /etc/services.d/reflection/run
-WORKDIR /tmp
-
-COPY Reflection /tmp/Reflection
-RUN cd /tmp/Reflection/; \
+	make; \
+	\
+	cd /tmp/Reflection/; \
 	export GOPATH=$(pwd); \
 	go get main; \
 	go build main; \
 	mv main ..; \
 	cd /tmp; \
-	rm -rf /tmp/Reflection;
-
-RUN apk del --purge \
+	rm -rf /tmp/Reflection; \
+	apk del --purge \
 	build-dependencies
+
+FROM linuxserver/qbittorrent
+COPY services.d /etc/services.d
+COPY --from=builder /tmp/main /tmp/main
