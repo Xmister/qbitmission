@@ -15,6 +15,9 @@ RUN apk add --no-cache --virtual=build-dependencies \
         make
 
 COPY Reflection /root/go/src/github.com/h31/Reflection
+# Copy patched files to fix race condition issue with multiple connections
+COPY reflection-patches/reflection/main.go /root/go/src/github.com/h31/Reflection/reflection/
+COPY reflection-patches/reflection/main_test.go /root/go/src/github.com/h31/Reflection/reflection/
 
 RUN     cd /root/go/src/github.com/h31/Reflection/reflection; \
         go get .; \
