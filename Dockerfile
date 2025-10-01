@@ -19,7 +19,8 @@ COPY Reflection /root/go/src/github.com/h31/Reflection
 RUN     cd /root/go/src/github.com/h31/Reflection/reflection; \
         go get .; \
         go build -o main -ldflags '-extldflags "-static"' .; \
-        mv main /tmp/; \
+        ls -l .; \
+        mv reflection /tmp/main; \
         cd /tmp; \
         rm -rf /root/go/src/github.com/h31/Reflection/; \
         apk del --purge \
