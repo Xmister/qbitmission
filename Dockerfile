@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.7 as builder
+FROM golang:1.24-alpine AS builder
 
 RUN apk add --no-cache --virtual=build-dependencies \
         autoconf \
@@ -20,8 +20,9 @@ RUN     cd /root/go/src/github.com/h31/Reflection/reflection; \
         go get .; \
         go build -o main -ldflags '-extldflags "-static"' .; \
         ls -l .; \
-        mv reflection /tmp/main; \
+        mv main /tmp/main; \
         cd /tmp; \
+        ls -l .; \
         rm -rf /root/go/src/github.com/h31/Reflection/; \
         apk del --purge \
         build-dependencies
